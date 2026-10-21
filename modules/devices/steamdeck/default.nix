@@ -14,15 +14,10 @@ let
 in
 {
   imports = [
-    ./controller.nix
-    ./fan-control.nix
     ./firmware.nix
-    ./graphical.nix
     ./hw-support.nix
     ./kernel.nix
-    ./perf-control.nix
     ./sdgyrodsu.nix
-    ./sound.nix
     ./workarounds.nix
   ];
 
@@ -38,8 +33,12 @@ in
     };
   };
   config = mkIf cfg.enable {
-    jovian.hardware.has = {
-      amd.gpu = true;
+    jovian.hardware = {
+      has.amd.gpu = true;
+      valve.enable = true;
     };
+
+    # udev rules required for integrated controller to work
+    hardware.steam-hardware.enable = true;
   };
 }
